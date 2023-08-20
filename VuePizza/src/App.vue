@@ -1,6 +1,13 @@
 <script>
+import myskeleton from './components/skeleton.vue'
+import pizzasContainer from './components/pizzas-container.vue'
+
 export default {
   name: 'App',
+  components: {
+    myskeleton,
+    pizzasContainer
+  },
   data() {
     return {
       pizzaTypes: [
@@ -116,11 +123,6 @@ export default {
   methods: {
     isSelected(i){
       this.selectedType = i
-    },
-    returnType(type){
-      if(type === 0){
-        return "тонкое"
-      } else return "традиционное"
     }
  },
   computed: {
@@ -147,10 +149,8 @@ export default {
 };
 </script>
 
-<!-- v-if="isRendered" -->
-
 <template>
-  <div class="skeleton-fccrhkwwq6s" v-if="isRendered === false"></div>
+  <myskeleton v-if="isRendered === false"></myskeleton>
   <div v-if="isRendered" ref="page" class="page-container">
     <div class="header">
       <div class="header_label">
@@ -177,52 +177,10 @@ export default {
     </div>
 
     <div class="container">
-      <div class="sorting_menu">
-        <ul class="sorting-menu_pizza-list">
-          <li v-for="(type, index) in pizzaTypes" :key="id" class="pizza-list_item" >
-            <button @click="isSelected(type.id)" class="pizza-list_button" :class="{'pizza_list_selectedBtn':type.id == selectedType}" type="button">{{ type.type }}</button>
-          </li>
-        </ul>
-
-        <div class="sorting-menu_sorting-bar">
-          <div class="sorting-menu_vector"></div>
-          <p class="sorting-menu_paragraph">Сортировка по: </p>
-          <button class="sorting-menu_drop-down-button" type="button">популярности</button>
-        </div>
-      </div>
       
       <h2 class="pizza-title">Все пиццы</h2>
 
-      <div class="pizzas-container">
-        <div class="pizza-container_card" v-for="pizza in filterPizzas" >
-          <div class="card-picture">
-            <img :src="pizza.imageUrl" alt="" class="card-img">
-            <p class="card-name">{{ pizza.name }}</p>
-          </div>
-
-          <div class="card-info_container">
-            <div class="card-info">
-              <div class="types-container">
-                <button class="type-btn" v-for="type in pizza.types" > {{ returnType(type) }} </button>
-              </div>
-              <div class="sizes-container">
-                <button class="size-btn" v-for="size in pizza.sizes">{{ size }}</button>
-              </div>
-
-
-            </div>
-
-            <div class="card-cost_container">
-              <p class="card-price">от {{ pizza.price }} ₽</p>
-              <button class="card-add_to_cart">
-                <div class="card-plus_vector"></div>
-                <p class="card-add_to_cart_text">Добавить</p>
-                <div class="card-total"></div>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <pizzasContainer :pizzaArr="filterPizzas"></pizzasContainer>
 
     </div>
   </div>
@@ -238,148 +196,6 @@ export default {
     height: 100%;
     width: 100%;
     background: red;
-  }
-  .type-btn, .size-btn{
-    flex: 1;
-    margin: 0 3.5px;
-    border-radius: 5px;
-    border: none;
-    height: 32px;
-    text-align: center;
-    color: #2C2C2C;
-    text-align: center;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-    letter-spacing: 0.21px;
-    cursor: pointer;
-  }
-
-  .selected-type-btn, .selected-type-btn {
-    flex: 1;
-    margin: 0 3.5px;
-    border-radius: 5px;
-    background: #FFF;
-    border: none;
-    height: 32px;
-    text-align: center;
-    color: #2C2C2C;
-    text-align: center;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-    letter-spacing: 0.21px;
-    cursor: pointer;
-  }
-  .types-container, .sizes-container{
-    display: flex;
-    width: 100%;
-  }
-
-  .card-add_to_cart_text{
-    color: #FFF;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-  }
-  .card-add_to_cart{
-    display: flex;
-    align-items: center;
-    height: 40px;
-    min-width: 132px;
-    padding: 0px 18px;
-    border-radius: 30px;
-    border: 1px solid #FE5F1E;
-    background: #FE5F1E;
-    cursor: pointer;
-  }
-  .card-plus_vector {
-    width: 12px;
-    height: 12px;
-    display: inline-block;
-    position: relative;
-    margin-right: 8px;
-  }
-  
-  .card-plus_vector::before,
-  .card-plus_vector::after {
-    content: '';
-    position: absolute;
-    background-color: white;
-  }
-  
-  .card-plus_vector::before {
-    width: 2px;
-    height: 100%;
-    left: 50%;
-    top: 0;
-    transform: translateX(-50%);
-  }
-  
-  .card-plus_vector::after {
-    height: 2px;
-    width: 100%;
-    top: 50%;
-    left: 0;
-    transform: translateY(-50%);
-  }
-
-.card-price{
-  font-size: 22px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  letter-spacing: 0.33px;
-}
-.card-cost_container{
-  display: flex;
-  justify-content: space-between;
-  margin-top: 24px;
-  align-items: center;
-}
-.card-info{
-  width: 280px;
-  height: 85px;
-  border-radius: 10px;
-  background: #F3F3F3;
-  display: flex;
-  padding: 7px 4.78px 7px 5.73px;
-  flex-direction: column;
-  justify-content: space-between;
-}
-  .pizza-container_card{
-    display: flex;
-    flex-direction: column;
-    width: 280px;
-    min-height: 459px;
-    align-items: center ;
-    justify-content: space-between;
-    margin-bottom: 65px;
-    padding: 7px 4.78px 7px 5.73px;
-  }
-
-  .card-name{
-    color: #000;
-  text-align: center;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 800;
-  line-height: normal;
-  letter-spacing: 0.2px;
-  }
-
-  .card-picture{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .card-img{
-    width: 260px;
-    height: 260px;
   }
   .header{
     padding: 49px 38px 35px 77px;
@@ -467,102 +283,11 @@ export default {
     flex-direction: column;
   }
 
-  .sorting_menu{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-
-  .sorting-menu_pizza-list{
-    display: flex;
-    flex-direction: row;
-    list-style-type: none;
-  }
-
-  .pizza-list_item{
-    margin-right: 8.95px;
-    border-radius: 30px;
-  }
-
-  .pizza-list_button{
-    border-radius: 30px;
-    height: 46px;
-    color: #2C2C2C;
-    text-align: center;
-    font-weight: 700;
-    letter-spacing: 0.24px;
-    border: none;
-    padding: 0 30px 0 30px;
-    cursor: pointer;
-  }
-
-  .pizza_list_selectedBtn{
-    border-radius: 30px;
-    height: 46px;
-    color: #FFF;
-    text-align: center;
-    font-weight: 700;
-    letter-spacing: 0.24px;
-    border: none;
-    padding: 0 30px 0 30px;
-    cursor: pointer;
-    background: #282828;
-  }
-
-  .sorting-menu_sorting-bar{
-    align-items: center;
-    display: flex;
-    height: 17px;
-    margin-bottom: 16px;
-    align-self: flex-end;
-
-  }
-
-  .sorting-menu_vector{
-    background: url(assets/Vector.svg) no-repeat;
-    width: 10px;
-    height: 5.63px;
-    margin-right: 7px;
-  }
-
-  .sorting-menu_paragraph{
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 0.21px;
-    margin-right: 8px;
-  }
-
-  .sorting-menu_drop-down-button{
-    background: none;
-    border: none;
-    border-bottom: 1px dotted #FE5F1E;
-    color: #FE5F1E;
-    font-weight: 400;
-    font-size: 14px;
-    letter-spacing: 0.21px;
-    cursor: pointer;
-  }
-
   .pizza-title{
     font-size: 32px;
     font-weight: 700;
     letter-spacing: 0.32px;
     margin-top: 32px;
-  }
-
-  .pizzas-container{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin-top: 35px;
-  }
-
-  .skeleton-fccrhkwwq6s:empty {position: relative; height: 797px; background-color: #ffffff; border-radius: 0px 0px 0px 0px; background-image: linear-gradient( #cccccc 85px, transparent 0 ),linear-gradient( #cccccc 85px, transparent 0 ),linear-gradient( #cccccc 85px, transparent 0 ),linear-gradient( #cccccc 24px, transparent 0 ),linear-gradient( #cccccc 24px, transparent 0 ),linear-gradient( #cccccc 24px, transparent 0 ),radial-gradient( circle 130px at 130px 130px, #cccccc 129px, transparent 130px ),radial-gradient( circle 130px at 130px 130px, #cccccc 129px, transparent 130px ),radial-gradient( circle 130px at 130px 130px, #cccccc 129px, transparent 130px ),linear-gradient( #cccccc 85px, transparent 0 ),linear-gradient( #cccccc 24px, transparent 0 ),radial-gradient( circle 130px at 130px 130px, #cccccc 129px, transparent 130px ),linear-gradient( #cccccc 39px, transparent 0 ),linear-gradient( #cccccc 19px, transparent 0 ),linear-gradient( #cccccc 46px, transparent 0 ),linear-gradient( #cccccc 46px, transparent 0 ),linear-gradient( #cccccc 46px, transparent 0 ),linear-gradient( #cccccc 46px, transparent 0 ),linear-gradient( #cccccc 46px, transparent 0 ),linear-gradient( #cccccc 46px, transparent 0 ),linear-gradient( #cccccc 1px, transparent 0 ),linear-gradient( #cccccc 50px, transparent 0 ),radial-gradient( circle 25px at 25px 25px, #cccccc 24px, transparent 25px ),radial-gradient( circle 25px at 25px 25px, #cccccc 24px, transparent 25px ),linear-gradient( #cccccc 19px, transparent 0 ),linear-gradient( #cccccc 29px, transparent 0 ),radial-gradient( circle 19px at 19px 19px, #cccccc 18px, transparent 19px );background-repeat: repeat-y;background-size: 280px 797px,280px 797px,280px 797px,280px 797px,280px 797px,280px 797px,260px 797px,260px 797px,260px 797px,280px 797px,280px 797px,260px 797px,166px 797px,224px 797px,145px 797px,120px 797px,107px 797px,196px 797px,132px 797px,82px 797px,1328px 797px,100px 797px,50px 797px,50px 797px,261px 797px,154px 797px,38px 797px;background-position: left 1027px top 647px,left 697px top 647px,left 382px top 647px,left 1027px top 607px,left 697px top 607px,left 382px top 607px,left 1027px top 330px,left 712px top 330px,left 397px top 330px,left 67px top 647px,left 67px top 607px,left 82px top 330px,left 67px top 256px,left 1068px top 197px,left 749px top 178px,left 620px top 178px,left 504px top 178px,left 300px top 178px,left 158px top 178px,left 67px top 178px,left 12px top 137px,left 1177px top 52px,left 1252px top 52px,left 1152px top 52px,left 132px top 78px,left 132px top 49px,left 77px top 54px;}.skeleton-fccrhkwwq6s:empty:before {content: ' '; position: absolute; z-index: 1000; width: 100%; height: 797px;-webkit-mask-image: linear-gradient( 100deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 80% ); -webkit-mask-repeat : repeat-y; -webkit-mask-size : 50px 797px; -webkit-mask-position: -20% 0;background-image: linear-gradient( rgba(102,102,102,1) 85px, transparent 0 ),linear-gradient( rgba(102,102,102,1) 85px, transparent 0 ),linear-gradient( rgba(102,102,102,1) 85px, transparent 0 ),linear-gradient( rgba(102,102,102,1) 24px, transparent 0 ),linear-gradient( rgba(102,102,102,1) 24px, transparent 0 ),linear-gradient( rgba(102,102,102,1) 24px, transparent 0 ),radial-gradient( circle 130px at 130px 130px, rgba(102,102,102,1) 129px, transparent 130px ),radial-gradient( circle 130px at 130px 130px, rgba(102,102,102,1) 129px, transparent 130px ),radial-gradient( circle 130px at 130px 130px, rgba(102,102,102,1) 129px, transparent 130px ),linear-gradient( rgba(102,102,102,1) 85px, transparent 0 ),linear-gradient( rgba(102,102,102,1) 24px, transparent 0 ),radial-gradient( circle 130px at 130px 130px, rgba(102,102,102,1) 129px, transparent 130px ),linear-gradient( rgba(102,102,102,1) 39px, transparent 0 ),linear-gradient( rgba(102,102,102,1) 19px, transparent 0 ),linear-gradient( rgba(102,102,102,1) 46px, transparent 0 ),linear-gradient( rgba(102,102,102,1) 46px, transparent 0 ),linear-gradient( rgba(102,102,102,1) 46px, transparent 0 ),linear-gradient( rgba(102,102,102,1) 46px, transparent 0 ),linear-gradient( rgba(102,102,102,1) 46px, transparent 0 ),linear-gradient( rgba(102,102,102,1) 46px, transparent 0 ),linear-gradient( rgba(102,102,102,1) 1px, transparent 0 ),linear-gradient( rgba(102,102,102,1) 50px, transparent 0 ),radial-gradient( circle 25px at 25px 25px, rgba(102,102,102,1) 24px, transparent 25px ),radial-gradient( circle 25px at 25px 25px, rgba(102,102,102,1) 24px, transparent 25px ),linear-gradient( rgba(102,102,102,1) 19px, transparent 0 ),linear-gradient( rgba(102,102,102,1) 29px, transparent 0 ),radial-gradient( circle 19px at 19px 19px, rgba(102,102,102,1) 18px, transparent 19px );background-repeat: repeat-y;background-size: 280px 797px,280px 797px,280px 797px,280px 797px,280px 797px,280px 797px,260px 797px,260px 797px,260px 797px,280px 797px,280px 797px,260px 797px,166px 797px,224px 797px,145px 797px,120px 797px,107px 797px,196px 797px,132px 797px,82px 797px,1328px 797px,100px 797px,50px 797px,50px 797px,261px 797px,154px 797px,38px 797px;background-position: left 1027px top 647px,left 697px top 647px,left 382px top 647px,left 1027px top 607px,left 697px top 607px,left 382px top 607px,left 1027px top 330px,left 712px top 330px,left 397px top 330px,left 67px top 647px,left 67px top 607px,left 82px top 330px,left 67px top 256px,left 1068px top 197px,left 749px top 178px,left 620px top 178px,left 504px top 178px,left 300px top 178px,left 158px top 178px,left 67px top 178px,left 12px top 137px,left 1177px top 52px,left 1252px top 52px,left 1152px top 52px,left 132px top 78px,left 132px top 49px,left 77px top 54px;animation: shineForSkeleton-fccrhkwwq6s 1s infinite;}@keyframes shineForSkeleton-fccrhkwwq6s {to {-webkit-mask-position: 120% 0}}
-  .skeleton-fccrhkwwq6s, .skeleton-fccrhkwwq6s div{
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    padding: 0;
   }
 
 
