@@ -1,6 +1,6 @@
 <script>
     export default{
-        props: ['pizzaArr'],
+        props: ['pizza'],
         methods: {returnType(type){
       if(type === 0){
         return "тонкое"
@@ -10,47 +10,39 @@
 </script>
 
 <template>
-    <div class="pizzas-container">
-        <div class="pizza-container_card" v-for="pizza in pizzaArr" >
-          <div class="card-picture">
-            <img :src="pizza.imageUrl" alt="" class="card-img">
-            <p class="card-name">{{ pizza.name }}</p>
-          </div>
 
-          <div class="card-info_container">
-            <div class="card-info">
-              <div class="types-container">
-                <button class="type-btn" v-for="type in pizza.types" > {{ returnType(type) }} </button>
-              </div>
-              <div class="sizes-container">
-                <button class="size-btn" v-for="size in pizza.sizes">{{ size }}</button>
-              </div>
+  <div class="pizza-container_card">
+    <div class="card-picture">
+      <img :src="pizza.imageUrl" alt="" class="card-img">
+      <p class="card-name">{{ pizza.name }}</p>
+    </div>
 
-
-            </div>
-
-            <div class="card-cost_container">
-              <p class="card-price">от {{ pizza.price }} ₽</p>
-              <button class="card-add_to_cart">
-                <div class="card-plus_vector"></div>
-                <p class="card-add_to_cart_text">Добавить</p>
-                <div class="card-total"></div>
-              </button>
-            </div>
-          </div>
+    <div class="card-info_container">
+      <div class="card-info">
+        <div class="types-container">
+          <button class="type-btn" v-for="type in pizza.types" > {{ returnType(type) }} </button>
+        </div>
+        <div class="sizes-container">
+          <button class="size-btn" v-for="size in pizza.sizes">{{ size }}</button>
         </div>
       </div>
+
+      <div class="card-cost_container">
+        <p class="card-price">от {{ pizza.price }} ₽</p>
+        <button class="card-add_to_cart">
+          <div class="card-plus_vector"></div>
+          <p class="card-add_to_cart_text">Добавить</p>
+          <div class="card-total"></div>
+        </button>
+      </div>
+    </div>
+  </div>
+
 </template>
 
 
 
 <style scoped>
-.pizzas-container{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin-top: 35px;
-  }
   .pizza-container_card{
     display: flex;
     flex-direction: column;

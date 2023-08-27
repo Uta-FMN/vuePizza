@@ -1,12 +1,17 @@
 <script>
-import myskeleton from './components/skeleton.vue'
-import pizzasContainer from './components/pizzas-container.vue'
+import categorySkeleton from './components/category-skeleton.vue'
+import pizzaCardSkeleton from './components/pizza-skeleton.vue'
+import pizzaCard from './components/pizza-cards.vue'
+import categoryButton from './components/filter-pizzas.vue'
+
 
 export default {
   name: 'App',
   components: {
-    myskeleton,
-    pizzasContainer
+    categorySkeleton,
+    pizzaCardSkeleton,
+    pizzaCard,
+    categoryButton
   },
   data() {
     return {
@@ -115,23 +120,23 @@ export default {
       "rating": 7
     }
   ],
-      selectedType: 0,
+      selectedCategory: 0,
       pizzasArr: [],
       isRendered: false
     };
   },
   methods: {
     isSelected(i){
-      this.selectedType = i
+      this.selectedCategory = i
     }
  },
   computed: {
     filterPizzas(){
-      if (this.selectedType === 0){
+      if (this.selectedCategory === 0){
         return this.pizzas
       }
       return this.pizzas.filter(pizza => {
-        return this.selectedType == pizza.category
+        return this.selectedCategory == pizza.category
       })
     }
  }, 
@@ -150,8 +155,7 @@ export default {
 </script>
 
 <template>
-  <myskeleton v-if="isRendered === false"></myskeleton>
-  <div v-if="isRendered" ref="page" class="page-container">
+  <div ref="page" class="page-container">
     <div class="header">
       <div class="header_label">
         <div class="header-logo"></div>
@@ -177,10 +181,25 @@ export default {
     </div>
 
     <div class="container">
-      
+
+      <div class="sorting_menu">
+        <ul class="sorting-menu_pizza-list">
+          <categorySkeleton v-if="isRendered === false" v-for="category in 5" :key="category"></categorySkeleton>
+          <categoryButton v-if="isRendered" :pizzaCategories="pizzaTypes" @selected-cathegory="isSelected" :selectedCategory="selectedCategory"></categoryButton>
+        </ul>
+        <div class="sorting-menu_sorting-bar">
+          <div class="sorting-menu_vector"></div>
+          <p class="sorting-menu_paragraph">Сортировка по: </p>
+          <button class="sorting-menu_drop-down-button" type="button">популярности</button>
+        </div>
+      </div>
+
       <h2 class="pizza-title">Все пиццы</h2>
 
-      <pizzasContainer :pizzaArr="filterPizzas"></pizzasContainer>
+      <div class="pizzas-container">
+        <pizzaCardSkeleton v-if="isRendered === false" v-for="card in 12"></pizzaCardSkeleton>
+        <pizzaCard v-for="pizza in filterPizzas" v-if="isRendered" :pizza="pizza"></pizzaCard>
+      </div>
 
     </div>
   </div>
@@ -282,12 +301,59 @@ export default {
     display: flex;
     flex-direction: column;
   }
-
   .pizza-title{
     font-size: 32px;
     font-weight: 700;
     letter-spacing: 0.32px;
     margin-top: 32px;
+  }
+  .sorting_menu{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+  .sorting-menu_pizza-list{
+    display: flex;
+    flex-direction: row;
+    list-style-type: none;
+}
+  .sorting-menu_sorting-bar{
+    align-items: center;
+    display: flex;
+    height: 17px;
+    margin-bottom: 16px;
+    align-self: flex-end;
+  }
+
+  .sorting-menu_vector{
+  background: url(assets/Vector.svg) no-repeat;
+  width: 10px;
+  height: 5.63px;
+  margin-right: 7px;
+  }
+
+  .sorting-menu_paragraph{
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.21px;
+  margin-right: 8px;
+  }
+
+  .sorting-menu_drop-down-button{
+  background: none;
+  border: none;
+  border-bottom: 1px dotted #FE5F1E;
+  color: #FE5F1E;
+  font-weight: 400;
+  font-size: 14px;
+  letter-spacing: 0.21px;
+  cursor: pointer;
+  }
+  .pizzas-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 35px;
   }
 
 
