@@ -157,22 +157,22 @@ export default {
 <template>
   <div ref="page" class="page-container">
     <div class="header">
-      <div class="header_label">
-        <div class="header-logo"></div>
-        <div class="header-pizza">
-          <h1 class="header-text">REACT PIZZA</h1>
-          <p class="header-paragraph">самая вкусная пицца во вселенной</p>
+      <div class="title">
+        <div class="title__logo"></div>
+        <div class="title__text-container">
+          <h1 class="title__header">REACT PIZZA</h1>
+          <p class="title__paragraph">самая вкусная пицца во вселенной</p>
         </div>
       </div>
-      <div class="header_cart-container">
-        <div class="header_cart">
-          <p class="header-total">
+      <div class="cart-container">
+        <div class="cart">
+          <p class="cart__total">
             520 ₽
           </p>
-          <div class="header-cart_line"></div>
-          <div class="header-cart_info">
-            <div class="header-cart_icon"></div>
-            <p class="header-cart_total_items">
+          <div class="cart__line"></div>
+          <div class="cart__inner-container">
+            <div class="cart__icon"></div>
+            <p class="cart__total">
               3
             </p>
           </div>
@@ -182,21 +182,21 @@ export default {
 
     <div class="container">
 
-      <div class="sorting_menu">
-        <ul class="sorting-menu_pizza-list">
+      <div class="sorting-container">
+        <ul class="category-list">
           <categorySkeleton v-if="isRendered === false" v-for="category in 5" :key="category"></categorySkeleton>
           <categoryButton v-if="isRendered" :pizzaCategories="pizzaTypes" @selected-cathegory="isSelected" :selectedCategory="selectedCategory"></categoryButton>
         </ul>
-        <div class="sorting-menu_sorting-bar">
-          <div class="sorting-menu_vector"></div>
-          <p class="sorting-menu_paragraph">Сортировка по: </p>
-          <button class="sorting-menu_drop-down-button" type="button">популярности</button>
+        <div class="sorting-menu">
+          <div class="sorting-menu__arrow"></div>
+          <p class="sorting-menu__text">Сортировка по: </p>
+          <button class="sorting-menu__button" type="button">популярности</button>
         </div>
       </div>
 
       <h2 class="pizza-title">Все пиццы</h2>
 
-      <div class="pizzas-container">
+      <div class="pizzas">
         <pizzaCardSkeleton v-if="isRendered === false" v-for="card in 12"></pizzaCardSkeleton>
         <pizzaCard v-for="pizza in filterPizzas" v-if="isRendered" :pizza="pizza"></pizzaCard>
       </div>
@@ -223,45 +223,45 @@ export default {
     border-bottom: 1px solid #F6F6F6;
   }
 
-  .header_label{
+  .title{
     display: flex;
   }
 
-  .header-pizza{
+  .title__text-container{
     margin: 0 0 5px 17px;
     height: 48px;
   }
 
-  .header-logo{
+  .title__logo{
     width: 38px;
     height: 38px;
     background: url(assets/PizzaLogo.svg);
     margin: 5px 0 10px 0;
   }
 
-  .header-text{
+  .title__header{
     color: #181818;
     font-size: 24px;
     font-weight: 800;
     letter-spacing: 0.24px;
   }
 
-  .header-paragraph{
+  .title__paragraph{
     color: #7B7B7B;
     font-weight: 400;
   }
 
-  .header_label p{
+  .title p{
     font-size: 16px;
     font-style: normal;
   }
 
-  .header_cart-container{
+  .cart-container{
     display: flex;
     align-items: flex-end;
   }
 
-  .header_cart{
+  .cart{
     border-radius: 30px;
     background: #FE5F1E;
     min-width: 150px;
@@ -271,26 +271,26 @@ export default {
     padding: 12px 23px 13px 23px;
   }
 
-  .header-cart_line{
+  .cart__line{
     width: 1px;
     height: 100%;
     border: 1px solid #FFFFFF40;
     margin: 0 13px 0 13px;
   }
 
-  .header-total, .header-cart_total_items{
+  .cart__total{
     color: #FFF;
     font-weight: 700;
   }
 
-  .header-cart_icon {
+  .cart__icon {
     height: 18px;
     width: 18px;
     background: url(assets/cart_icon.svg);
     margin-right: 8px;
   }
 
-  .header-cart_info{
+  .cart__inner-container{
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -307,17 +307,17 @@ export default {
     letter-spacing: 0.32px;
     margin-top: 32px;
   }
-  .sorting_menu{
+  .sorting-container{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
-  .sorting-menu_pizza-list{
+  .category-list{
     display: flex;
     flex-direction: row;
     list-style-type: none;
 }
-  .sorting-menu_sorting-bar{
+  .sorting-menu{
     align-items: center;
     display: flex;
     height: 17px;
@@ -325,21 +325,21 @@ export default {
     align-self: flex-end;
   }
 
-  .sorting-menu_vector{
+  .sorting-menu__arrow{
   background: url(assets/Vector.svg) no-repeat;
   width: 10px;
   height: 5.63px;
   margin-right: 7px;
   }
 
-  .sorting-menu_paragraph{
+  .sorting-menu__text{
   font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.21px;
   margin-right: 8px;
   }
 
-  .sorting-menu_drop-down-button{
+  .sorting-menu__button{
   background: none;
   border: none;
   border-bottom: 1px dotted #FE5F1E;
@@ -349,7 +349,7 @@ export default {
   letter-spacing: 0.21px;
   cursor: pointer;
   }
-  .pizzas-container{
+  .pizzas{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;

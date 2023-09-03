@@ -11,14 +11,14 @@
 
 <template>
 
-  <div class="pizza-container_card">
-    <div class="card-picture">
-      <img :src="pizza.imageUrl" alt="" class="card-img">
-      <p class="card-name">{{ pizza.name }}</p>
+  <div class="pizza">
+    <div class="pizza__img-container">
+      <img :src="pizza.imageUrl" alt="" class="pizza__img">
+      <p class="pizza__name">{{ pizza.name }}</p>
     </div>
 
-    <div class="card-info_container">
-      <div class="card-info">
+    <div>
+      <div class="pizza__info">
         <div class="types-container">
           <button class="type-btn" v-for="type in pizza.types" > {{ returnType(type) }} </button>
         </div>
@@ -43,7 +43,7 @@
 
 
 <style scoped>
-  .pizza-container_card{
+  .pizza{
     display: flex;
     flex-direction: column;
     width: 280px;
@@ -53,16 +53,16 @@
     margin-bottom: 65px;
     padding: 7px 4.78px 7px 5.73px;
   }
-  .card-picture{
+  .pizza__img-container{
     display: flex;
     flex-direction: column;
     align-items: center;
   }
-  .card-img{
+  .pizza__img{
     width: 260px;
     height: 260px;
   }
-  .card-name{
+  .pizza__name{
     color: #000;
     text-align: center;
     font-size: 20px;
@@ -71,7 +71,7 @@
     line-height: normal;
     letter-spacing: 0.2px;
   }
-  .card-info{
+  .pizza__info{
     width: 280px;
     height: 85px;
     border-radius: 10px;
