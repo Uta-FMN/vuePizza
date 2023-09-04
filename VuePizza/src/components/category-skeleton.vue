@@ -1,14 +1,10 @@
-<script>
-        export default {}
-</script>
-
 <template>
-    <div class="category_skeleton"></div>
+    <div class="category-skeleton"></div>
 </template>
 
 
 <style scoped>
-    .category_skeleton {
+    .category-skeleton {
         position: relative;
         width: 120px;
         height: 46px;
@@ -19,7 +15,7 @@
         overflow: hidden;
     }
 
-    .category_skeleton::before {
+    .category-skeleton::before {
         content: "";
         position: absolute;
         top: 0;

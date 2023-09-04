@@ -6,21 +6,21 @@
         ]
         }
 </script>
-<!-- @click="isSelected(type.id)" -->
+
 <template>
 
-        <li v-for="(type, index) in pizzaCategories" :key="type.id" class="pizza-list_item" >
-            <button @click="$emit('selected-cathegory', type.id)" class="pizza-list_button" :class="{'pizza_list_selectedBtn':type.id == selectedCategory}" type="button">{{ type.type }}</button>
+        <li v-for="(type, index) in pizzaCategories" :key="type.id" class="category" >
+            <button @click="$emit('selected-cathegory', type.id)" class="category__button" :class="{'category__button_selected':type.id == selectedCategory}" type="button">{{ type.type }}</button>
         </li>
 
 </template>
 
 <style scoped>
-    .pizza-list_item{
+    .category{
         margin-right: 8.95px;
         border-radius: 30px;
     }
-    .pizza-list_button{
+    .category__button{
     border-radius: 30px;
     height: 46px;
     color: #2C2C2C;
@@ -32,7 +32,7 @@
     cursor: pointer;
     }
 
-    .pizza_list_selectedBtn{
+    .category__button_selected{
     border-radius: 30px;
     height: 46px;
     color: #FFF;

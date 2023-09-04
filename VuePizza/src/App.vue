@@ -139,15 +139,7 @@ export default {
         return this.selectedCategory == pizza.category
       })
     }
- }, 
-  // beforeCreate(){console.log("beforeCreate")},
-  // created(){console.log("created " + this.selectedType)},
-  // beforeMount(){console.log("beforeMount")},
-  // mounted(){console.log("mounted")},
-  // beforeUpdate(){console.log("beforeUpdate")},
-  // updated(){console.log("updated")},
-  // beforeDestroy(){console.log("beforeDestroy")},
-  // destroyed(){console.log("destroyed")}
+ },
   mounted(){
     setTimeout(() => {this.isRendered = true}, 5000)
   }
@@ -183,22 +175,35 @@ export default {
     <div class="container">
 
       <div class="sorting-container">
-        <ul class="category-list">
-          <categorySkeleton v-if="isRendered === false" v-for="category in 5" :key="category"></categorySkeleton>
-          <categoryButton v-if="isRendered" :pizzaCategories="pizzaTypes" @selected-cathegory="isSelected" :selectedCategory="selectedCategory"></categoryButton>
+        
+        <ul class="category-list"> 
+          <template v-if="!isRendered">
+            <categorySkeleton v-for="(category, index) in 5" :key="index"></categorySkeleton>
+          </template>
+          <template v-else>
+            <categoryButton :pizzaCategories="pizzaTypes" @selected-cathegory="isSelected" :selectedCategory="selectedCategory"></categoryButton>
+          </template>
         </ul>
+
         <div class="sorting-menu">
           <div class="sorting-menu__arrow"></div>
           <p class="sorting-menu__text">Сортировка по: </p>
           <button class="sorting-menu__button" type="button">популярности</button>
         </div>
+
       </div>
 
       <h2 class="pizza-title">Все пиццы</h2>
 
       <div class="pizzas">
-        <pizzaCardSkeleton v-if="isRendered === false" v-for="card in 12"></pizzaCardSkeleton>
-        <pizzaCard v-for="pizza in filterPizzas" v-if="isRendered" :pizza="pizza"></pizzaCard>
+
+        <template v-if="!isRendered">
+          <pizzaCardSkeleton v-for="(card, index) in 12" :key="index"></pizzaCardSkeleton>
+        </template>
+        <template v-else>
+          <pizzaCard v-for="pizza in filterPizzas" :pizza="pizza" :key="pizza.id"></pizzaCard>
+        </template>
+       
       </div>
 
     </div>
@@ -210,11 +215,6 @@ export default {
   .page-container{
     height: 100%;
     width: 100%;
-  }
-  .skeleton{
-    height: 100%;
-    width: 100%;
-    background: red;
   }
   .header{
     padding: 49px 38px 35px 77px;

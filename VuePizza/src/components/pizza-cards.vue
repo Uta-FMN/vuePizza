@@ -18,21 +18,21 @@
     </div>
 
     <div>
-      <div class="pizza__info">
-        <div class="types-container">
-          <button class="type-btn" v-for="type in pizza.types" > {{ returnType(type) }} </button>
+      <div class="pizza__button-list-container">
+        <div class="pizza__buttons-list">
+          <button class="pizza__list-button" v-for="type in pizza.types" > {{ returnType(type) }} </button>
         </div>
-        <div class="sizes-container">
-          <button class="size-btn" v-for="size in pizza.sizes">{{ size }}</button>
+        <div class="pizza__buttons-list">
+          <button class="pizza__list-button" v-for="size in pizza.sizes">{{ size }}</button>
         </div>
       </div>
 
-      <div class="card-cost_container">
-        <p class="card-price">от {{ pizza.price }} ₽</p>
-        <button class="card-add_to_cart">
-          <div class="card-plus_vector"></div>
-          <p class="card-add_to_cart_text">Добавить</p>
-          <div class="card-total"></div>
+      <div class="pizza__cost-container">
+        <p class="pizza__price">от {{ pizza.price }} ₽</p>
+        <button class="pizza__cart-btn">
+          <div class="pizza__plus-vector"></div>
+          <p class="pizza__cart-text">Добавить</p>
+          <div class="pizza__ammount"></div>
         </button>
       </div>
     </div>
@@ -71,7 +71,7 @@
     line-height: normal;
     letter-spacing: 0.2px;
   }
-  .pizza__info{
+  .pizza__button-list-container{
     width: 280px;
     height: 85px;
     border-radius: 10px;
@@ -81,7 +81,7 @@
     flex-direction: column;
     justify-content: space-between;
   }
-  .type-btn, .size-btn{
+  .pizza__list-button{
     flex: 1;
     margin: 0 3.5px;
     border-radius: 5px;
@@ -97,7 +97,7 @@
     letter-spacing: 0.21px;
     cursor: pointer;
   }
-  .selected-type-btn, .selected-type-btn {
+  .pizza__list-button_selected {
     flex: 1;
     margin: 0 3.5px;
     border-radius: 5px;
@@ -114,11 +114,11 @@
     letter-spacing: 0.21px;
     cursor: pointer;
   }
-  .types-container, .sizes-container{
+  .pizza__buttons-list{
     display: flex;
     width: 100%;
   }
-  .card-plus_vector {
+  .pizza__plus-vector {
     width: 12px;
     height: 12px;
     display: inline-block;
@@ -126,14 +126,14 @@
     margin-right: 8px;
   }
   
-  .card-plus_vector::before,
-  .card-plus_vector::after {
+  .pizza__plus-vector::before,
+  .pizza__plus-vector::after {
     content: '';
     position: absolute;
     background-color: white;
   }
   
-  .card-plus_vector::before {
+  .pizza__plus-vector::before {
     width: 2px;
     height: 100%;
     left: 50%;
@@ -141,7 +141,7 @@
     transform: translateX(-50%);
   }
   
-  .card-plus_vector::after {
+  .pizza__plus-vector::after {
     height: 2px;
     width: 100%;
     top: 50%;
@@ -149,27 +149,27 @@
     transform: translateY(-50%);
   }
 
-.card-price{
+.pizza__price{
   font-size: 22px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
   letter-spacing: 0.33px;
 }
-.card-cost_container{
+.pizza__cost-container{
   display: flex;
   justify-content: space-between;
   margin-top: 24px;
   align-items: center;
 }
-.card-add_to_cart_text{
+.pizza__cart-text{
     color: #FFF;
     font-size: 16px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
   }
-  .card-add_to_cart{
+  .pizza__cart-btn{
     display: flex;
     align-items: center;
     height: 40px;
