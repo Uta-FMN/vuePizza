@@ -3,7 +3,7 @@ import categorySkeleton from './components/category-skeleton.vue'
 import pizzaCardSkeleton from './components/pizza-skeleton.vue'
 import pizzaCard from './components/pizza-cards.vue'
 import categoryButton from './components/filter-pizzas.vue'
-
+import sorting from './components/Sorting.vue'
 
 export default {
   name: 'App',
@@ -11,7 +11,8 @@ export default {
     categorySkeleton,
     pizzaCardSkeleton,
     pizzaCard,
-    categoryButton
+    categoryButton,
+    sorting
   },
   data() {
     return {
@@ -120,16 +121,29 @@ export default {
       "rating": 7
     }
   ],
+      sortingArr: [
+        {"name": "популярности", "id": 0, "type": "rating"},
+        {"name": "цене", "id": 1, "type": "price"},
+        {"name": "алфавиту", "id": 2, "type": "name"}
+  ],
+      selectedSorting: "rating",
       selectedCategory: 0,
-      pizzasArr: [],
-      isRendered: false
+      filteredPizzas: [],
+      isRendered: false,
     };
   },
   methods: {
     isSelected(i){
       this.selectedCategory = i
-    }
- },
+    },
+    setSorting(type){
+      this.selectedSorting = type
+      console.log(this.selectedSorting)
+    },
+    // copyArr(){
+    //   this.filteredPizzas = JSON.parse(JSON.stringify(this.pizzas))
+    // }
+  },
   computed: {
     filterPizzas(){
       if (this.selectedCategory === 0){
@@ -138,9 +152,20 @@ export default {
       return this.pizzas.filter(pizza => {
         return this.selectedCategory == pizza.category
       })
+    },
+    sortPizzas(){
+      const tempArr = JSON.parse(JSON.stringify(this.pizzas))
+      if(this.selectedSorting == "rating"){
+        tempArr.sort((a, b) => b[this.selectedSorting] - a[this.selectedSorting])
+        return tempArr
+      }
+
     }
- },
-  mounted(){
+  },
+  created() {
+    this.pizzas = this.sortPizzas;
+  },
+  mounted() {
     setTimeout(() => {this.isRendered = true}, 5000)
   }
 };
@@ -185,11 +210,7 @@ export default {
           </template>
         </ul>
 
-        <div class="sorting-menu">
-          <div class="sorting-menu__arrow"></div>
-          <p class="sorting-menu__text">Сортировка по: </p>
-          <button class="sorting-menu__button" type="button">популярности</button>
-        </div>
+        <sorting :sortingArr="sortingArr" @filterResponse="setSorting"></sorting>
 
       </div>
 
@@ -203,7 +224,7 @@ export default {
         <template v-else>
           <pizzaCard v-for="pizza in filterPizzas" :pizza="pizza" :key="pizza.id"></pizzaCard>
         </template>
-       
+
       </div>
 
     </div>
@@ -317,38 +338,6 @@ export default {
     flex-direction: row;
     list-style-type: none;
 }
-  .sorting-menu{
-    align-items: center;
-    display: flex;
-    height: 17px;
-    margin-bottom: 16px;
-    align-self: flex-end;
-  }
-
-  .sorting-menu__arrow{
-  background: url(assets/Vector.svg) no-repeat;
-  width: 10px;
-  height: 5.63px;
-  margin-right: 7px;
-  }
-
-  .sorting-menu__text{
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.21px;
-  margin-right: 8px;
-  }
-
-  .sorting-menu__button{
-  background: none;
-  border: none;
-  border-bottom: 1px dotted #FE5F1E;
-  color: #FE5F1E;
-  font-weight: 400;
-  font-size: 14px;
-  letter-spacing: 0.21px;
-  cursor: pointer;
-  }
   .pizzas{
     display: flex;
     flex-wrap: wrap;
