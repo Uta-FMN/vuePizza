@@ -2,7 +2,7 @@
 import categorySkeleton from './components/category-skeleton.vue'
 import pizzaCardSkeleton from './components/pizza-skeleton.vue'
 import pizzaCard from './components/pizza-cards.vue'
-import categoryButton from './components/filter-pizzas.vue'
+import categoryButton from './components/Filter.vue'
 import sorting from './components/Sorting.vue'
 
 export default {
@@ -17,7 +17,7 @@ export default {
   data() {
     return {
       pizzaTypes: [
-        {type: 'Все', id: 0, cls: 'pizza_list_selectedBtn'}, {type: 'Мясные', id: 1, cls: 'pizza-list_button'}, {type: 'Вегетарианская', id: 2, cls: 'pizza-list_button'}, {type: 'Острые', id: 3, cls: 'pizza-list_button'}, {type: 'Гриль', id: 4, cls: 'pizza-list_button'}, {type: 'Закрытые', id: 5, cls: 'pizza-list_button'}
+        {type: 'Все', id: 0}, {type: 'Мясные', id: 1}, {type: 'Вегетарианская', id: 2}, {type: 'Острые', id: 3}, {type: 'Гриль', id: 4}, {type: 'Закрытые', id: 5}
       ],
       pizzas: [
     {
@@ -136,20 +136,16 @@ export default {
     isSelected(i){
       this.selectedCategory = i
     },
-    setSorting(type){
-      this.selectedSorting = type
-      console.log(this.selectedSorting)
+    setSorting(obj){
+      this.selectedSorting = obj.type
     },
-    // copyArr(){
-    //   this.filteredPizzas = JSON.parse(JSON.stringify(this.pizzas))
-    // }
   },
   computed: {
     filterPizzas(){
       if (this.selectedCategory === 0){
-        return this.pizzas
+        return this.sortPizzas
       }
-      return this.pizzas.filter(pizza => {
+      return this.sortPizzas.filter(pizza => {
         return this.selectedCategory == pizza.category
       })
     },
@@ -157,8 +153,12 @@ export default {
       const tempArr = JSON.parse(JSON.stringify(this.pizzas))
       if(this.selectedSorting == "rating"){
         tempArr.sort((a, b) => b[this.selectedSorting] - a[this.selectedSorting])
-        return tempArr
-      }
+      } else if(this.selectedSorting == "price"){
+          tempArr.sort((a, b) => b[this.selectedSorting] - a[this.selectedSorting])
+        } else if(this.selectedSorting == "name"){
+            tempArr.sort((a, b) => a.name.localeCompare(b.name));
+          }
+            return tempArr
 
     }
   },
@@ -174,11 +174,11 @@ export default {
 <template>
   <div ref="page" class="page-container">
     <div class="header">
-      <div class="title">
-        <div class="title__logo"></div>
-        <div class="title__text-container">
-          <h1 class="title__header">REACT PIZZA</h1>
-          <p class="title__paragraph">самая вкусная пицца во вселенной</p>
+      <div class="header-left">
+        <div class="header-left__logo"></div>
+        <div class="header-left__wrapper">
+          <h1 class="header-left__title">REACT PIZZA</h1>
+          <p class="header-left__description">самая вкусная пицца во вселенной</p>
         </div>
       </div>
       <div class="cart-container">
@@ -244,35 +244,35 @@ export default {
     border-bottom: 1px solid #F6F6F6;
   }
 
-  .title{
+  .header-left{
     display: flex;
   }
 
-  .title__text-container{
+  .header-left__wrapper{
     margin: 0 0 5px 17px;
     height: 48px;
   }
 
-  .title__logo{
+  .header-left__logo{
     width: 38px;
     height: 38px;
     background: url(assets/PizzaLogo.svg);
     margin: 5px 0 10px 0;
   }
 
-  .title__header{
+  .header-left__title{
     color: #181818;
     font-size: 24px;
     font-weight: 800;
     letter-spacing: 0.24px;
   }
 
-  .title__paragraph{
+  .header-left__description{
     color: #7B7B7B;
     font-weight: 400;
   }
 
-  .title p{
+  .header-left p{
     font-size: 16px;
     font-style: normal;
   }

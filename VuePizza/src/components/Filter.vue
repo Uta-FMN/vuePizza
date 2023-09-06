@@ -1,10 +1,16 @@
 <script>
     export default {
-        props: [
-            'pizzaCategories',
-            'selectedCategory'
-        ]
-        }
+        props: {
+            pizzaCategories: {
+                type: Object,
+                required: true
+            },
+            selectedCategory: {
+                type: Number,
+                required: true
+            }
+        },
+        emits: ['selectedCathegory']}
 </script>
 
 <template>

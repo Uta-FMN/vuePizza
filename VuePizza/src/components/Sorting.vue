@@ -1,23 +1,8 @@
 <script>
-import { computed } from 'vue';
-
 export default {
     props: {sortingArr: {
         type: Array,
         required: true,
-        default: () => [
-            {"name": "популярности", "id": 0, "type": "rating"},
-            {"name": "цене", "id": 1, "type": "price"},
-            {"name": "алфавиту", "id": 2, "type": "name"}
-        ],
-        validator(value) {
-            if (value.length > 0 && Array.isArray(value)) {
-                return true;
-            } else {
-                console.error('Ошибка валидации: массив пуст');
-                return false;
-            }
-        }
     }},
     data() {
         return {
@@ -28,11 +13,13 @@ export default {
     methods:{
         arrowRotation(){
             this.dropDownOpened = !this.dropDownOpened
-            console.log(this.dropDownOpened)
+        },
+        setNewSorting(type){
+            this.arrowRotation(), 
+            this.selectedFilter=type.id, 
+            this.$emit('filterResponse', type)
         }
     },
-    computed: {
-    }
 }
 </script>
 
@@ -44,7 +31,7 @@ export default {
         <ul v-if="dropDownOpened" class="sorting-menu__dropdown-list" >
             <li 
                 v-for="type in sortingArr" 
-                @click="arrowRotation(), selectedFilter=type.id, $emit('filterResponse', type.type)" 
+                @click="setNewSorting(type)" 
                 :key="type.id" 
                 class="sorting-menu__item" 
                 :class="{'sorting-menu__item_selected':type.id == selectedFilter}">
@@ -104,7 +91,7 @@ export default {
         right: 0;
         padding: 13px 0;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
-        z-index: 9999;
+        background: white;
     }
     .sorting-menu__item{
         color: #000;

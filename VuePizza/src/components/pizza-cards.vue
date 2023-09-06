@@ -1,37 +1,43 @@
 <script>
-    export default{
-        props: ['pizza'],
-        methods: {returnType(type){
-      if(type === 0){
+  export default{
+    props: {
+      pizza: {
+        type: Object,
+        required: true
+      }},
+    methods: {
+      returnType(type){
+        if(type === 0){
         return "тонкое"
       } else return "традиционное"
+      }
     }
-    }}
+  }
 </script>
 
 <template>
 
   <div class="pizza">
-    <div class="pizza__img-container">
+    <div class="pizza__top-container">
       <img :src="pizza.imageUrl" alt="" class="pizza__img">
       <p class="pizza__name">{{ pizza.name }}</p>
     </div>
 
     <div>
-      <div class="pizza__button-list-container">
-        <div class="pizza__buttons-list">
-          <button class="pizza__list-button" v-for="type in pizza.types" > {{ returnType(type) }} </button>
+      <div class="types">
+        <div class="pizza__list">
+          <button class="pizza__item" v-for="type in pizza.types" > {{ returnType(type) }} </button>
         </div>
-        <div class="pizza__buttons-list">
-          <button class="pizza__list-button" v-for="size in pizza.sizes">{{ size }}</button>
+        <div class="pizza__list">
+          <button class="pizza__item" v-for="size in pizza.sizes">{{ size }}</button>
         </div>
       </div>
 
-      <div class="pizza__cost-container">
+      <div class="pizza__bottom">
         <p class="pizza__price">от {{ pizza.price }} ₽</p>
-        <button class="pizza__cart-btn">
-          <div class="pizza__plus-vector"></div>
-          <p class="pizza__cart-text">Добавить</p>
+        <button class="pizza__cart-button">
+          <div class="pizza__icon"></div>
+          <p class="pizza__text">Добавить</p>
           <div class="pizza__ammount"></div>
         </button>
       </div>
@@ -53,7 +59,7 @@
     margin-bottom: 65px;
     padding: 7px 4.78px 7px 5.73px;
   }
-  .pizza__img-container{
+  .pizza__top-container{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -71,7 +77,7 @@
     line-height: normal;
     letter-spacing: 0.2px;
   }
-  .pizza__button-list-container{
+  .types{
     width: 280px;
     height: 85px;
     border-radius: 10px;
@@ -81,7 +87,7 @@
     flex-direction: column;
     justify-content: space-between;
   }
-  .pizza__list-button{
+  .pizza__item{
     flex: 1;
     margin: 0 3.5px;
     border-radius: 5px;
@@ -97,7 +103,7 @@
     letter-spacing: 0.21px;
     cursor: pointer;
   }
-  .pizza__list-button_selected {
+  .pizza__item--selected {
     flex: 1;
     margin: 0 3.5px;
     border-radius: 5px;
@@ -114,11 +120,11 @@
     letter-spacing: 0.21px;
     cursor: pointer;
   }
-  .pizza__buttons-list{
+  .pizza__list{
     display: flex;
     width: 100%;
   }
-  .pizza__plus-vector {
+  .pizza__icon {
     width: 12px;
     height: 12px;
     display: inline-block;
@@ -126,14 +132,14 @@
     margin-right: 8px;
   }
   
-  .pizza__plus-vector::before,
-  .pizza__plus-vector::after {
+  .pizza__icon::before,
+  .pizza__icon::after {
     content: '';
     position: absolute;
     background-color: white;
   }
   
-  .pizza__plus-vector::before {
+  .pizza__icon::before {
     width: 2px;
     height: 100%;
     left: 50%;
@@ -141,7 +147,7 @@
     transform: translateX(-50%);
   }
   
-  .pizza__plus-vector::after {
+  .pizza__icon::after {
     height: 2px;
     width: 100%;
     top: 50%;
@@ -156,20 +162,20 @@
   line-height: normal;
   letter-spacing: 0.33px;
 }
-.pizza__cost-container{
+.pizza__bottom{
   display: flex;
   justify-content: space-between;
   margin-top: 24px;
   align-items: center;
 }
-.pizza__cart-text{
+.pizza__text{
     color: #FFF;
     font-size: 16px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
   }
-  .pizza__cart-btn{
+  .pizza__cart-button{
     display: flex;
     align-items: center;
     height: 40px;
