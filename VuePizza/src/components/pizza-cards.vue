@@ -5,13 +5,41 @@
         type: Object,
         required: true
       }},
+
+    data(){
+      return{
+        selectedType: 0,
+        selectedSize: 0,
+        ammount: 0,
+      }
+    },
+
     methods: {
       returnType(type){
         if(type === 0){
         return "тонкое"
       } else return "традиционное"
+      },
+      selectType(type){
+        this.selectedType = type
+      },
+      selectSize(size){
+        this.selectedSize = size
+      },
+      addToCart(){
+        const selectedPizza = {}
+        selectedPizza.imageUrl = this.pizza.imageUrl
+        selectedPizza.name = this.pizza.name
+        selectedPizza.type = this.returnType(this.selectedType)
+        selectedPizza.size = this.pizza.sizes[this.selectedSize]
+        selectedPizza.price = this.pizza.price
+        selectedPizza.total = this.pizza.price
+        selectedPizza.ammount = 1
+        this.ammount ++
+        this.$emit('add-to-cart', selectedPizza)
       }
-    }
+    },
+
   }
 </script>
 
@@ -26,19 +54,19 @@
     <div>
       <div class="types">
         <div class="pizza__list">
-          <button class="pizza__item" v-for="type in pizza.types" > {{ returnType(type) }} </button>
+          <button v-for="(type, index) in pizza.types" :key="index" @click="selectType(index)" class="pizza__item" :class="{'pizza__item--selected':index == selectedType}"> {{ returnType(type) }} </button>
         </div>
         <div class="pizza__list">
-          <button class="pizza__item" v-for="size in pizza.sizes">{{ size }}</button>
+          <button v-for="(size, index) in pizza.sizes" :key="index" @click="selectSize(index)" class="pizza__item" :class="{'pizza__item--selected':index == selectedSize}">{{ size }}</button>
         </div>
       </div>
 
       <div class="pizza__bottom">
         <p class="pizza__price">от {{ pizza.price }} ₽</p>
-        <button class="pizza__cart-button">
+        <button class="pizza__cart-button" @click="addToCart()">
           <div class="pizza__icon"></div>
           <p class="pizza__text">Добавить</p>
-          <div class="pizza__ammount"></div>
+          <div v-if="ammount >= 1" class="pizza__ammount">{{ammount}}</div>
         </button>
       </div>
     </div>
@@ -185,5 +213,20 @@
     border: 1px solid #FE5F1E;
     background: #FE5F1E;
     cursor: pointer;
+  }
+  .pizza__ammount {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 8px;
+    padding: 0 7px;
+    min-width: 22px;
+    height: 22px;
+    border-radius: 11px;
+    background: white;
+    color: #FE5F1E;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
   }
 </style>

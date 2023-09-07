@@ -4,6 +4,7 @@ import pizzaCardSkeleton from './components/pizza-skeleton.vue'
 import pizzaCard from './components/pizza-cards.vue'
 import categoryButton from './components/Filter.vue'
 import sorting from './components/Sorting.vue'
+import leftHeader from './components/Header-left.vue'
 
 export default {
   name: 'App',
@@ -12,7 +13,8 @@ export default {
     pizzaCardSkeleton,
     pizzaCard,
     categoryButton,
-    sorting
+    sorting,
+    leftHeader
   },
   data() {
     return {
@@ -128,8 +130,8 @@ export default {
   ],
       selectedSorting: "rating",
       selectedCategory: 0,
-      filteredPizzas: [],
       isRendered: false,
+      cartArray: [],
     };
   },
   methods: {
@@ -139,6 +141,24 @@ export default {
     setSorting(obj){
       this.selectedSorting = obj.type
     },
+    addToCart(selectedPizza){
+      if (this.cartArray.length === 0){
+        this.cartArray.push(selectedPizza)
+      } else {
+        let found = false
+        for(let i = 0; i < this.cartArray.length; i++ ){
+          if (this.cartArray[i].name == selectedPizza.name && this.cartArray[i].type == selectedPizza.type && this.cartArray[i].size == selectedPizza.size){
+            this.cartArray[i].ammount ++
+            this.cartArray[i].total = this.cartArray[i].ammount * this.cartArray[i].price
+            found = true
+            break
+          }
+        }
+        if (!found){
+          this.cartArray.push(selectedPizza)
+        }
+      }
+    }
   },
   computed: {
     filterPizzas(){
@@ -160,6 +180,20 @@ export default {
           }
             return tempArr
 
+    },
+    getCartAmmount(){
+      let ammount = 0
+      this.cartArray.forEach(pizza =>  {
+        ammount = ammount + pizza.ammount
+      })
+      return ammount
+    },
+    getCartPrice(){
+      let price = 0
+      this.cartArray.forEach(pizza =>  {
+        price = price + pizza.total
+      })
+      return price
     }
   },
   created() {
@@ -174,23 +208,17 @@ export default {
 <template>
   <div ref="page" class="page-container">
     <div class="header">
-      <div class="header-left">
-        <div class="header-left__logo"></div>
-        <div class="header-left__wrapper">
-          <h1 class="header-left__title">REACT PIZZA</h1>
-          <p class="header-left__description">самая вкусная пицца во вселенной</p>
-        </div>
-      </div>
+      <leftHeader></leftHeader>
       <div class="cart-container">
         <div class="cart">
           <p class="cart__total">
-            520 ₽
+            {{getCartPrice + " ₽"}}
           </p>
           <div class="cart__line"></div>
           <div class="cart__inner-container">
             <div class="cart__icon"></div>
             <p class="cart__total">
-              3
+              {{getCartAmmount}}
             </p>
           </div>
         </div>
@@ -222,7 +250,7 @@ export default {
           <pizzaCardSkeleton v-for="(card, index) in 12" :key="index"></pizzaCardSkeleton>
         </template>
         <template v-else>
-          <pizzaCard v-for="pizza in filterPizzas" :pizza="pizza" :key="pizza.id"></pizzaCard>
+          <pizzaCard @add-to-cart="addToCart" v-for="pizza in filterPizzas" :pizza="pizza" :key="pizza.id"></pizzaCard>
         </template>
 
       </div>
@@ -243,40 +271,6 @@ export default {
     justify-content: space-between;
     border-bottom: 1px solid #F6F6F6;
   }
-
-  .header-left{
-    display: flex;
-  }
-
-  .header-left__wrapper{
-    margin: 0 0 5px 17px;
-    height: 48px;
-  }
-
-  .header-left__logo{
-    width: 38px;
-    height: 38px;
-    background: url(assets/PizzaLogo.svg);
-    margin: 5px 0 10px 0;
-  }
-
-  .header-left__title{
-    color: #181818;
-    font-size: 24px;
-    font-weight: 800;
-    letter-spacing: 0.24px;
-  }
-
-  .header-left__description{
-    color: #7B7B7B;
-    font-weight: 400;
-  }
-
-  .header-left p{
-    font-size: 16px;
-    font-style: normal;
-  }
-
   .cart-container{
     display: flex;
     align-items: flex-end;

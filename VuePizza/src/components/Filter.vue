@@ -10,7 +10,7 @@
                 required: true
             }
         },
-        emits: ['selectedCathegory']}
+        emits: ['selected-cathegory']}
 </script>
 
 <template>
