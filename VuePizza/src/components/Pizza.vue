@@ -4,13 +4,16 @@
       pizza: {
         type: Object,
         required: true
-      }},
+      },
+      cartArray: {
+        type: Array,
+      }
+    },
 
     data(){
       return{
         selectedType: 0,
         selectedSize: 0,
-        ammount: 0,
       }
     },
 
@@ -33,12 +36,21 @@
         selectedPizza.type = this.returnType(this.selectedType)
         selectedPizza.size = this.pizza.sizes[this.selectedSize]
         selectedPizza.price = this.pizza.price
-        selectedPizza.total = this.pizza.price
-        selectedPizza.ammount = 1
-        this.ammount ++
         this.$emit('add-to-cart', selectedPizza)
       }
     },
+    computed: {
+      getCartAmmount(){
+        let pizzaAmmount = 0
+
+        this.cartArray.forEach(item => {
+          if (this.pizza.name === item.name){
+            pizzaAmmount = pizzaAmmount + item.ammount
+          }
+        })
+        return pizzaAmmount
+      }
+    }
 
   }
 </script>
@@ -66,7 +78,7 @@
         <button class="pizza__cart-button" @click="addToCart()">
           <div class="pizza__icon"></div>
           <p class="pizza__text">Добавить</p>
-          <div v-if="ammount >= 1" class="pizza__ammount">{{ammount}}</div>
+          <div v-if="getCartAmmount > 0" class="pizza__ammount">{{getCartAmmount}}</div>
         </button>
       </div>
     </div>
