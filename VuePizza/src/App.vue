@@ -6,6 +6,8 @@ import categoryButton from './components/Filter.vue'
 import sorting from './components/Sorting.vue'
 import logo from './components/Logo.vue'
 
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'App',
   components: {
@@ -29,35 +31,36 @@ export default {
   ],
       selectedSorting: "rating",
       selectedCategory: 0,
-      isRendered: false,
-      cartArray: [],
+      isRendered: false
     };
   },
   methods: {
     getPizzas(){
       this.pizzas = this.$store.state.pizzas
     },
+
     isSelected(i){
       this.selectedCategory = i
     },
+
     setSorting(obj){
       this.selectedSorting = obj.type
     },
-    addToCart(selectedPizza){
-      const pizzaIndex = this.cartArray.findIndex((pizza) => 
-      pizza.name == selectedPizza.name && 
-      pizza.type == selectedPizza.type && 
-      pizza.size == selectedPizza.size)
 
-      if(pizzaIndex !== -1){
-        this.cartArray[pizzaIndex].ammount ++
-      } else {
-        selectedPizza.ammount = 1
-        this.cartArray.push(selectedPizza)
-      }
+    getCartAmmount(pizza){
+      let pizzaAmmount = 0
+      this.getCart.forEach(item => {
+        if (pizza.name === item.name){
+          pizzaAmmount += item.ammount
+        }
+      })
+      return pizzaAmmount
     }
   },
+
   computed: {
+    ...mapGetters(["getCart"]),
+
     filterPizzas(){
       if (this.selectedCategory === 0){
         return this.sortPizzas
@@ -66,6 +69,7 @@ export default {
         return this.selectedCategory == pizza.category
       })
     },
+
     sortPizzas(){
       const tempArr = JSON.parse(JSON.stringify(this.pizzas))
       if(this.selectedSorting == "rating"){
@@ -78,25 +82,29 @@ export default {
             return tempArr
 
     },
-    getCartAmmount(){
+
+    getTotalCartAmmount(){
       let ammount = 0
-      this.cartArray.forEach(pizza =>  {
-        ammount = ammount + pizza.ammount
+      this.getCart.forEach(pizza =>  {
+        ammount += pizza.ammount
       })
       return ammount
     },
+
     getCartPrice(){
       let price = 0
-      this.cartArray.forEach(pizza =>  {
-        price = price + (pizza.price * pizza.ammount)
+      this.getCart.forEach(pizza =>  {
+        price += pizza.price * pizza.ammount
       })
       return price
     }
   },
+
   created() {
     this.getPizzas()
     this.pizzas = this.sortPizzas;
   },
+  
   mounted() {
     setTimeout(() => {this.isRendered = true}, 5000)
   }
@@ -116,7 +124,7 @@ export default {
           <div class="cart__inner-container">
             <div class="cart__icon"></div>
             <p class="cart__total">
-              {{getCartAmmount}}
+              {{getTotalCartAmmount}}
             </p>
           </div>
         </div>
@@ -148,7 +156,7 @@ export default {
           <pizzaCardSkeleton v-for="(card, index) in 12" :key="index"></pizzaCardSkeleton>
         </template>
         <template v-else>
-          <pizzaCard @add-to-cart="addToCart" v-for="pizza in filterPizzas" :cartArray="cartArray" :pizza="pizza" :key="pizza.id"></pizzaCard>
+          <pizzaCard v-for="pizza in filterPizzas" :cartAmmount="getCartAmmount(pizza)" :pizza="pizza" :key="pizza.id"></pizzaCard>
         </template>
 
       </div>

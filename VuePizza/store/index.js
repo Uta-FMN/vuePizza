@@ -1,6 +1,10 @@
 import { createStore } from 'vuex'
+import cart from './modules/cart'
 
 const store = createStore({
+    modules: {
+      cart
+    },
     state: {
         pizzas: [
             {
@@ -104,7 +108,7 @@ const store = createStore({
               "rating": 7
             }
           ],
-    }
+    },
 })
 
 export default store;

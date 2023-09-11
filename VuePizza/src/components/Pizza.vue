@@ -1,12 +1,14 @@
 <script>
+  import { mapMutations } from 'vuex'
+
   export default{
     props: {
       pizza: {
         type: Object,
         required: true
       },
-      cartArray: {
-        type: Array,
+      cartAmmount: {
+        type: Number,
       }
     },
 
@@ -18,6 +20,8 @@
     },
 
     methods: {
+      ...mapMutations(["addToCart"]),
+
       returnType(type){
         if(type === 0){
         return "тонкое"
@@ -29,29 +33,16 @@
       selectSize(size){
         this.selectedSize = size
       },
-      addToCart(){
+      buildPizza(){
         const selectedPizza = {}
         selectedPizza.imageUrl = this.pizza.imageUrl
         selectedPizza.name = this.pizza.name
         selectedPizza.type = this.returnType(this.selectedType)
         selectedPizza.size = this.pizza.sizes[this.selectedSize]
         selectedPizza.price = this.pizza.price
-        this.$emit('add-to-cart', selectedPizza)
-      }
-    },
-    computed: {
-      getCartAmmount(){
-        let pizzaAmmount = 0
-
-        this.cartArray.forEach(item => {
-          if (this.pizza.name === item.name){
-            pizzaAmmount = pizzaAmmount + item.ammount
-          }
-        })
-        return pizzaAmmount
+        this.addToCart(selectedPizza)
       }
     }
-
   }
 </script>
 
@@ -75,10 +66,10 @@
 
       <div class="pizza__bottom">
         <p class="pizza__price">от {{ pizza.price }} ₽</p>
-        <button class="pizza__cart-button" @click="addToCart()">
+        <button class="pizza__cart-button" @click="buildPizza()">
           <div class="pizza__icon"></div>
           <p class="pizza__text">Добавить</p>
-          <div v-if="getCartAmmount > 0" class="pizza__ammount">{{getCartAmmount}}</div>
+          <div v-if="cartAmmount > 0" class="pizza__ammount">{{cartAmmount}}</div>
         </button>
       </div>
     </div>
