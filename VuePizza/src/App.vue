@@ -6,7 +6,7 @@ import categoryButton from './components/Filter.vue'
 import sorting from './components/Sorting.vue'
 import logo from './components/Logo.vue'
 
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'App',
@@ -35,8 +35,10 @@ export default {
     };
   },
   methods: {
-    getPizzas(){
-      this.pizzas = this.$store.state.pizzas
+    async pagePreparations(){
+      await this.fetchPizzas
+      this.isRendered = true
+      this.pizzas = this.sortPizzas;
     },
 
     isSelected(i){
@@ -59,7 +61,8 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["getCart"]),
+    ...mapGetters(["getCart", "getPizzas"]),
+    ...mapActions(["fetchPizzas"]),
 
     filterPizzas(){
       if (this.selectedCategory === 0){
@@ -71,7 +74,7 @@ export default {
     },
 
     sortPizzas(){
-      const tempArr = JSON.parse(JSON.stringify(this.pizzas))
+      const tempArr = JSON.parse(JSON.stringify(this.getPizzas))
       if(this.selectedSorting == "rating"){
         tempArr.sort((a, b) => b[this.selectedSorting] - a[this.selectedSorting])
       } else if(this.selectedSorting == "price"){
@@ -101,12 +104,7 @@ export default {
   },
 
   created() {
-    this.getPizzas()
-    this.pizzas = this.sortPizzas;
-  },
-  
-  mounted() {
-    setTimeout(() => {this.isRendered = true}, 5000)
+    setTimeout(() => {this.pagePreparations()}, 5000)
   }
 };
 </script>
