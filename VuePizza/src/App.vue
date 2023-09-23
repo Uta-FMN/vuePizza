@@ -35,8 +35,10 @@ export default {
     };
   },
   methods: {
+    ...mapActions(["fetchPizzas"]),
+
     async pagePreparations(){
-      await this.fetchPizzas
+      await this.fetchPizzas()
       this.isRendered = true
       this.pizzas = this.sortPizzas;
     },
@@ -62,7 +64,6 @@ export default {
 
   computed: {
     ...mapGetters(["getCart", "getPizzas"]),
-    ...mapActions(["fetchPizzas"]),
 
     filterPizzas(){
       if (this.selectedCategory === 0){
@@ -104,7 +105,7 @@ export default {
   },
 
   created() {
-    setTimeout(() => {this.pagePreparations()}, 5000)
+    this.pagePreparations()
   }
 };
 </script>
