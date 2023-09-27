@@ -14,7 +14,7 @@
     },
 
     computed: {
-      ...mapGetters(["getCart", "getPizzas"]),
+      ...mapGetters(["getCart"]),
 
       getTotalCartAmmount(){
       let ammount = 0

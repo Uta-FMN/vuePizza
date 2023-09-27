@@ -27,27 +27,26 @@
         border-radius: 30px;
     }
     .category__button{
-    border-radius: 30px;
-    height: 46px;
-    color: #2C2C2C;
-    text-align: center;
-    font-weight: 700;
-    letter-spacing: 0.24px;
-    border: none;
-    padding: 0 30px 0 30px;
-    cursor: pointer;
+        border-radius: 30px;
+        height: 46px;
+        color: #2C2C2C;
+        text-align: center;
+        font-weight: 700;
+        letter-spacing: 0.24px;
+        border: none;
+        padding: 0 30px 0 30px;
+        cursor: pointer;
     }
-
     .category__button_selected{
-    border-radius: 30px;
-    height: 46px;
-    color: #FFF;
-    text-align: center;
-    font-weight: 700;
-    letter-spacing: 0.24px;
-    border: none;
-    padding: 0 30px 0 30px;
-    cursor: pointer;
-    background: #282828;
+        border-radius: 30px;
+        height: 46px;
+        color: #FFF;
+        text-align: center;
+        font-weight: 700;
+        letter-spacing: 0.24px;
+        border: none;
+        padding: 0 30px 0 30px;
+        cursor: pointer;
+        background: #282828;
     }
 </style>

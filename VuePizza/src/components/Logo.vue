@@ -1,11 +1,11 @@
 <template>
-    <div class="header-left">
+    <router-link to="/main" class="header-left">
         <div class="header-left__logo"></div>
         <div class="header-left__wrapper">
-            <h1 class="header-left__title">REACT PIZZA</h1>
+            <h1 class="header-left__title">VUE PIZZA</h1>
             <p class="header-left__description">самая вкусная пицца во вселенной</p>
         </div>
-    </div>
+    </router-link>
 </template>
 
 <style scoped>
@@ -15,6 +15,8 @@
     }
     .header-left{
         display: flex;
+        text-decoration: none;
+        cursor: pointer;
     }
     .header-left__logo{
         width: 38px;
