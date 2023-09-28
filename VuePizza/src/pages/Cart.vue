@@ -1,6 +1,6 @@
 <script>
     import Pizza from '../components/Cart-pizza.vue'
-    import { mapGetters, mapActions } from 'vuex'
+    import { mapGetters } from 'vuex'
 
     export default {
 
@@ -16,58 +16,92 @@
 
         computed: {
             ...mapGetters(["getCart"]),
+
+            getTotalCartAmmount(){
+                let ammount = 0
+                this.getCart.forEach(pizza =>  {
+                    ammount += pizza.ammount
+                })
+                return ammount
+            },
+
+            getCartPrice(){
+                let price = 0
+                this.getCart.forEach(pizza =>  {
+                price += pizza.price * pizza.ammount
+                })
+                return price
+            }
         },
     }
 </script>
 
 <template>
     <div class="container">
-        <div class="title">
-            <div class="title__left">
-                <img src="../assets/cart_icon2.svg" alt="" class="title__cart-icon">
-                <h2 class="title__cart-text">Корзина</h2>
-            </div>
-            <button class="title__right">
-                <img src="../assets/trash_icon.svg" alt="" class="title__trash-icon">
-                <p class="title__trash-text">Очистить корзину</p>
-            </button>
-        </div>
 
-        <div class="pizzas_list">
-            <Pizza v-for="pizza in getCart" :key="pizza.index" :pizza="pizza"></Pizza>
-        </div>
+        <template v-if="this.getCart.length === 0">
+            <div class="cart-empty">
+                    <h2 class="cart-empty__title">Корзина пустая 😕</h2>
 
-        <div class="footer">
-            <div class="info">
-
-                <div class="info__text-wrapper">
-                    <p class="info__text">Всего пицц: &nbsp</p>
-                    <p class="info__ammount">3 шт.</p>
-                </div>
-                
-                <div class="info__text-wrapper">
-                    <p class="info__text">Сумма заказа: &nbsp</p>
-                    <p class="info__total">900 ₽</p>
-                </div>
-
-            </div>
-
-            <div class="buttons-container">
-
-                <button class="left-button">
-                    <div class="left-button__inner-wrapper">
-                        <img src="../assets/arrow_icon.svg" alt="" class="left-button__arrow">
-                        <p class="left-button__text">Вернуться назад</p>
+                    <div class="cart-empty__text">
+                        Вероятней всего, вы не заказывали ещё пиццу. Для того, чтобы заказать пиццу, перейди на главную страницу.
                     </div>
-                </button>
 
-                <button class="right-button">
-                    <p class="right-button__text">Оплатить сейчас</p>
-                </button>
+                    <img src="../assets/empty-cart.svg" alt="" class="cart-empty__img">
+
+                    <router-link to="/main" class="cart-empty__btn">
+                        <p class="cart-empty__btn-text">
+                            Вернуться назад
+                        </p>
+                    </router-link>
 
             </div>
+        </template>
 
-        </div>
+        <template v-else>
+            <div class="title">
+                <div class="title__left">
+                    <img src="../assets/cart_icon2.svg" alt="" class="title__cart-icon">
+                    <h2 class="title__cart-text">Корзина</h2>
+                </div>
+
+                <button class="title__right">
+                    <img src="../assets/trash_icon.svg" alt="" class="title__trash-icon">
+                    <p class="title__trash-text">Очистить корзину</p>
+                </button>
+            </div>
+    
+            <div class="pizzas_list">
+                <Pizza v-for="pizza in getCart" :key="pizza.index" :pizza="pizza"></Pizza>
+            </div>
+    
+            <div class="footer">
+                <div class="info">
+                    <div class="info__text-wrapper">
+                        <p class="info__text">Всего пицц: &nbsp</p>
+                        <p class="info__ammount">{{getTotalCartAmmount}} шт.</p>
+                    </div>
+                    
+                    <div class="info__text-wrapper">
+                        <p class="info__text">Сумма заказа: &nbsp</p>
+                        <p class="info__total">{{getCartPrice}} ₽</p>
+                    </div>
+                </div>
+    
+                <div class="buttons-container">
+                    <router-link to="/main" class="left-button">
+                        <div class="left-button__inner-wrapper">
+                            <img src="../assets/arrow_icon.svg" alt="" class="left-button__arrow">
+                            <p class="left-button__text">Вернуться назад</p>
+                        </div>
+                    </router-link>
+    
+                    <button class="right-button">
+                        <p class="right-button__text">Оплатить сейчас</p>
+                    </button>
+                </div>
+            </div>
+        </template>
     </div>
 </template>
 
@@ -169,6 +203,7 @@
         background: none;
         border: 1px solid #D3D3D3;
         cursor: pointer;
+        text-decoration: none;
     }
     .left-button__arrow{
         height: 12px;
@@ -191,5 +226,49 @@
         text-align: center;
         font-size: 16px;
         font-weight: 700;
+    }
+    .cart-empty{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 69px auto 69px auto;
+        max-width: 547px;
+    }
+    .cart-empty__title{
+        font-size: 32px;
+        font-weight: 700;
+        letter-spacing: 0.32px;
+    }
+    .cart-empty__text{
+        color: #777;
+        text-align: center;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 145.4%;
+        letter-spacing: 0.18px;
+        margin-top: 10px;
+    }
+    .cart-empty__img{
+        width: 300px;
+        height: 255px;
+        margin-top: 47px;
+    }
+    .cart-empty__btn{
+        border-radius: 30px;
+        background: #282828;
+        width: 210px;
+        height: 46px;
+        display: flex;
+        align-items: center;
+        margin-top: 88px;
+        text-decoration: none;
+    }
+    .cart-empty__btn-text{
+        text-align: center;
+        font-size: 16px;
+        font-weight: 700;
+        letter-spacing: 0.24px;
+        color: #FFF;
+        margin: 0 auto 0 auto;
     }
 </style>
