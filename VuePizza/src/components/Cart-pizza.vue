@@ -1,9 +1,25 @@
 <script>
+    import { mapMutations } from 'vuex'
+
     export default{
         props: {
             pizza: {
                 type: Object,
                 required: true
+            }
+        },
+
+        methods: {
+            ...mapMutations(["addToCart", "cartReduce", "cartRemove", "cartClear"]),
+
+            sendToCart(){
+                this.addToCart(this.pizza)
+            },
+            reduceFromCart(){
+                this.cartReduce(this.pizza)
+            },
+            removeFromCart(){
+                this.cartRemove(this.pizza)
             }
         },
 
@@ -31,17 +47,17 @@
 
         <div class="pizza__right-wrapper">
             <div class="pizza__ammount-container">
-                <button class="pizza__round-btn">
+                <button class="pizza__round-btn" @click="reduceFromCart()">
                     <div class="pizza__minus"></div>
                 </button>
                 <p class="pizza__ammount">{{ pizza.ammount }}</p>
-                <button class="pizza__round-btn">
+                <button class="pizza__round-btn" @click="sendToCart()">
                     <div class="pizza__plus-horizontal"></div>
                     <div class="pizza__plus-vertical"></div>
                 </button>
             </div>
             <p class="pizza__cost">{{ getPizzaPrice }} ₽</p>
-            <button class="pizza__remove-btn">
+            <button class="pizza__remove-btn" @click="removeFromCart()">
                 <div class="pizza__x-line"></div>
                 <div class="pizza__x-line-2"></div>
             </button>

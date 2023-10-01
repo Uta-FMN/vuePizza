@@ -1,6 +1,6 @@
 <script>
     import Pizza from '../components/Cart-pizza.vue'
-    import { mapGetters } from 'vuex'
+    import { mapGetters, mapMutations } from 'vuex'
 
     export default {
 
@@ -11,6 +11,14 @@
         data() {
             return {
  
+            }
+        },
+
+        methods: {
+            ...mapMutations(["cartClear"]),
+
+            clearCart(){
+                this.cartClear()
             }
         },
 
@@ -65,7 +73,7 @@
                     <h2 class="title__cart-text">Корзина</h2>
                 </div>
 
-                <button class="title__right">
+                <button class="title__right" @click="clearCart()">
                     <img src="../assets/trash_icon.svg" alt="" class="title__trash-icon">
                     <p class="title__trash-text">Очистить корзину</p>
                 </button>
