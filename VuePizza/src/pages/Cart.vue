@@ -239,7 +239,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin: 69px auto 69px auto;
+        margin: 0 auto 69px auto;
         max-width: 547px;
     }
     .cart-empty__title{
