@@ -23,24 +23,8 @@
         },
 
         computed: {
-            ...mapGetters(["getCart"]),
-
-            getTotalCartAmmount(){
-                let ammount = 0
-                this.getCart.forEach(pizza =>  {
-                    ammount += pizza.ammount
-                })
-                return ammount
-            },
-
-            getCartPrice(){
-                let price = 0
-                this.getCart.forEach(pizza =>  {
-                price += pizza.price * pizza.ammount
-                })
-                return price
-            }
-        },
+            ...mapGetters(["getCart", "getCartAmmount", "getCartPrice"]),
+        }
     }
 </script>
 
@@ -87,7 +71,7 @@
                 <div class="info">
                     <div class="info__text-wrapper">
                         <p class="info__text">Всего пицц: &nbsp</p>
-                        <p class="info__ammount">{{getTotalCartAmmount}} шт.</p>
+                        <p class="info__ammount">{{getCartAmmount}} шт.</p>
                     </div>
                     
                     <div class="info__text-wrapper">

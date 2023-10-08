@@ -20,14 +20,6 @@ export default {
   data() {
     return {
       pizzas: [],
-      pizzaTypes: [
-        {type: 'Все', id: 0}, {type: 'Мясные', id: 1}, {type: 'Вегетарианская', id: 2}, {type: 'Острые', id: 3}, {type: 'Гриль', id: 4}, {type: 'Закрытые', id: 5}
-      ],
-      sortingArr: [
-        {"name": "популярности", "id": 0, "type": "rating"},
-        {"name": "цене", "id": 1, "type": "price"},
-        {"name": "алфавиту", "id": 2, "type": "name"}
-  ],
       selectedSorting: "rating",
       selectedCategory: 0,
       isRendered: false
@@ -35,10 +27,12 @@ export default {
   },
   
   methods: {
-    ...mapActions(["fetchPizzas"]),
+    ...mapActions(["get"]),
 
     async pagePreparations(){
-      await this.fetchPizzas()
+      await this.get("pizzas")
+      await this.get("categories")
+      await this.get("sorting")
       this.isRendered = true
       this.pizzas = this.sortPizzas;
     },
@@ -63,7 +57,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["getCart", "getPizzas"]),
+    ...mapGetters(["getCart", "getPizzas", "getSortingArray", "getCategories"]),
 
     filterPizzas(){
       if (this.selectedCategory === 0){
@@ -104,11 +98,11 @@ export default {
             <categorySkeleton v-for="(category, index) in 5" :key="index"></categorySkeleton>
           </template>
           <template v-else>
-            <categoryButton :pizzaCategories="pizzaTypes" @selected-cathegory="isSelected" :selectedCategory="selectedCategory"></categoryButton>
+            <categoryButton :pizzaCategories="getCategories" @selected-cathegory="isSelected" :selectedCategory="selectedCategory"></categoryButton>
           </template>
         </ul>
 
-        <sorting :sortingArr="sortingArr" @filterResponse="setSorting"></sorting>
+        <sorting v-if="isRendered" :sortingArr="getSortingArray" @filterResponse="setSorting"></sorting>
 
       </div>
 

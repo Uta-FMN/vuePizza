@@ -1,5 +1,5 @@
 import { createStore } from 'vuex'
-import axios from 'axios';
+import * as api from '../src/API/pizzas'
 import cart from './modules/cart'
 
 const store = createStore({
@@ -8,31 +8,84 @@ const store = createStore({
     },
 
     state: {
-        pizzas: []
+        pizzas: [],
+        categories: [],
+        sorting: []
     },
 
     actions: {
-      async fetchPizzas({commit}){
-        try {
-          const res = await axios.get('http://localhost:3000/pizzas')
-          commit("setPizzas", res.data)
+      async get({commit}, type){
+
+        switch (type) {
+          case "pizzas":
+            try {
+              await api.getPizzas()
+              .then((data) => {
+                commit("set", {data: data, type: type})
+              })
+            }
+            catch (error){
+              console.error('Произошла ошибка: ', error)
+            }
+            break
+
+          case "categories":
+            try {
+              await api.getCategories()
+              .then((data) => {
+                commit("set", {data: data, type: type})
+              })
+            }
+            catch (error){
+              console.error('Произошла ошибка: ', error)
+            }
+            break
+
+          case "sorting":
+            try {
+              await api.getSortingArray()
+              .then((data) => {
+                commit("set", {data: data, type: type})
+              })
+            }
+            catch (error){
+              console.error('Произошла ошибка: ', error)
+            }
+            break
         }
-        catch (error){
-          console.error('Произошла ошибка:', error)
-        }
-      }
+      },
     },
 
     mutations: {
-      setPizzas(state, pizzas){
-        state.pizzas = pizzas
+      set(state, payload){
+        switch(payload.type){
+          case "pizzas":
+            state.pizzas = payload.data
+            break
+
+          case "categories":
+            state.categories = payload.data
+            break
+
+          case "sorting":
+            state.sorting = payload.data
+            break
+        }
       }
     },
     
     getters: {
       getPizzas (state){
-      return state.pizzas
-    }
+        return state.pizzas
+      },
+
+      getCategories (state){
+        return state.categories
+      },
+
+      getSortingArray (state){
+        return state.sorting
+      },
     }
 })
 

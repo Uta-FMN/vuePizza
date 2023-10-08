@@ -14,23 +14,7 @@
     },
 
     computed: {
-      ...mapGetters(["getCart"]),
-
-      getTotalCartAmmount(){
-      let ammount = 0
-      this.getCart.forEach(pizza =>  {
-        ammount += pizza.ammount
-      })
-      return ammount
-      },
-
-      getCartPrice(){
-        let price = 0
-        this.getCart.forEach(pizza =>  {
-          price += pizza.price * pizza.ammount
-        })
-        return price
-      }
+      ...mapGetters(["getCart", "getCartAmmount", "getCartPrice"])
     },
 
     watch: {
@@ -59,7 +43,7 @@
           <div class="cart__inner-container">
             <div class="cart__icon"></div>
             <p class="cart__total">
-              {{getTotalCartAmmount}}
+              {{getCartAmmount}}
             </p>
           </div>
         </div>

@@ -100,5 +100,31 @@
             "category": 5,
             "rating": 7
           }
+    ],
+    "categories": [
+      {"type": "Все",
+       "id": 0
+      }, 
+      {"type": "Мясные", 
+        "id": 1
+      }, 
+      {"type": 
+        "Вегетарианская", 
+        "id": 2
+      }, 
+      {"type": "Острые", 
+        "id": 3
+      }, 
+      {"type": "Гриль", 
+        "id": 4
+      }, 
+      {"type": "Закрытые", 
+        "id": 5
+      }
+    ],
+    "sortingArray": [
+      {"name": "популярности", "id": 0, "type": "rating"},
+      {"name": "цене", "id": 1, "type": "price"},
+      {"name": "алфавиту", "id": 2, "type": "name"}
     ]
 }

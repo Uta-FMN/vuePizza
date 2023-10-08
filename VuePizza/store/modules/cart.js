@@ -45,6 +45,22 @@ export default {
     getters: {
         getCart(state){
             return state.cartArray
+        },
+
+        getCartAmmount(state){
+            let ammount = 0
+            state.cartArray.forEach(pizza =>  {
+                ammount += pizza.ammount
+            })
+            return ammount
+        },
+
+        getCartPrice(state){
+            let price = 0
+            state.cartArray.forEach(pizza =>  {
+            price += pizza.price * pizza.ammount
+            })
+            return price
         }
     }
 }
