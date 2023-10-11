@@ -1,17 +1,13 @@
 <script>
     import Pizza from '../components/Cart-pizza.vue'
+    import cButton from '../components/Button.vue'
     import { mapGetters, mapMutations } from 'vuex'
 
     export default {
 
         components: {
-            Pizza
-        },
-
-        data() {
-            return {
- 
-            }
+            Pizza,
+            cButton
         },
 
         methods: {
@@ -41,12 +37,13 @@
 
                     <img src="../assets/empty-cart.svg" alt="" class="cart-empty__img">
 
-                    <router-link to="/main" class="cart-empty__btn">
-                        <p class="cart-empty__btn-text">
-                            Вернуться назад
-                        </p>
-                    </router-link>
-
+                    <div class="cart-empty__btn">
+                        <cButton type="black" size="medium" route="main">
+                            <p class="cart-empty__btn-text">
+                                Вернуться назад
+                            </p>
+                        </cButton>
+                    </div>
             </div>
         </template>
 
@@ -81,16 +78,14 @@
                 </div>
     
                 <div class="buttons-container">
-                    <router-link to="/main" class="left-button">
-                        <div class="left-button__inner-wrapper">
-                            <img src="../assets/arrow_icon.svg" alt="" class="left-button__arrow">
-                            <p class="left-button__text">Вернуться назад</p>
-                        </div>
-                    </router-link>
-    
-                    <button class="right-button">
+                    <cButton type="grey" size="large" route="main">
+                        <img src="../assets/arrow_icon.svg" alt="" class="left-button__arrow">
+                        <p class="left-button__text">Вернуться назад</p>
+                    </cButton>
+
+                    <cButton size="large">
                         <p class="right-button__text">Оплатить сейчас</p>
-                    </button>
+                    </cButton>
                 </div>
             </div>
         </template>
@@ -179,24 +174,6 @@
         justify-content: space-between;
         margin-top: 40px;
     }
-    .left-button, .right-button{
-        width: 211px;
-        height: 55px;
-        border-radius: 30px;
-        padding: 18px 0 16px 0;
-        align-items: center;
-    }
-    .left-button__inner-wrapper{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .left-button{
-        background: none;
-        border: 1px solid #D3D3D3;
-        cursor: pointer;
-        text-decoration: none;
-    }
     .left-button__arrow{
         height: 12px;
         width: 6px;
@@ -207,11 +184,6 @@
         text-align: center;
         font-size: 16px;
         font-weight: 400;
-    }
-    .right-button{
-        background: #FE5F1E;
-        border: none;
-        cursor: pointer;
     }
     .right-button__text{
         color: #FFF;
@@ -246,14 +218,7 @@
         margin-top: 47px;
     }
     .cart-empty__btn{
-        border-radius: 30px;
-        background: #282828;
-        width: 210px;
-        height: 46px;
-        display: flex;
-        align-items: center;
         margin-top: 88px;
-        text-decoration: none;
     }
     .cart-empty__btn-text{
         text-align: center;

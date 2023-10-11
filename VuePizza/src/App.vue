@@ -34,6 +34,7 @@
   <div ref="page" class="page-container">
     <div class="header">
       <logo></logo>
+
       <router-link to="/cart" v-if="onMainPage" class="cart-container">
         <div class="cart">
           <p class="cart__total">
@@ -69,7 +70,6 @@
     align-items: flex-end;
     text-decoration: none;
   }
-
   .cart{
     border-radius: 30px;
     background: #FE5F1E;
@@ -80,30 +80,25 @@
     align-items: center;
     padding: 12px 23px 13px 23px;
   }
-
   .cart__line{
     width: 1px;
     height: 100%;
     border: 1px solid #FFFFFF40;
     margin: 0 13px 0 13px;
   }
-
   .cart__total{
     color: #FFF;
     font-weight: 700;
   }
-
   .cart__icon {
     height: 18px;
     width: 18px;
     background: url(./assets/cart_icon.svg);
     margin-right: 8px;
   }
-
   .cart__inner-container{
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
-
 </style>

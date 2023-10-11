@@ -29,10 +29,14 @@ export default {
   methods: {
     ...mapActions(["get"]),
 
-    async pagePreparations(){
+    async startAxios(){
       await this.get("pizzas")
       await this.get("categories")
       await this.get("sorting")
+    },
+
+    async pagePreparations(){
+      await this.startAxios()
       this.isRendered = true
       this.pizzas = this.sortPizzas;
     },
