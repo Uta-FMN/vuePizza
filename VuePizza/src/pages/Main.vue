@@ -27,16 +27,15 @@ export default {
   },
   
   methods: {
-    ...mapActions(["get"]),
+    ...mapActions(["pizzasAPI", "sortingAPI", "categoriesAPI"]),
 
-    async startAxios(){
-      await this.get("pizzas")
-      await this.get("categories")
-      await this.get("sorting")
+    async startApp(){
+      const requests = [this.pizzasAPI(), this.sortingAPI(), this.categoriesAPI()]
+      return Promise.all(requests)
     },
 
     async pagePreparations(){
-      await this.startAxios()
+      await this.startApp()
       this.isRendered = true
       this.pizzas = this.sortPizzas;
     },
@@ -74,11 +73,11 @@ export default {
 
     sortPizzas(){
       const tempArr = JSON.parse(JSON.stringify(this.getPizzas))
-      if(this.selectedSorting == "rating"){
+      if(this.selectedSorting === "rating"){
         tempArr.sort((a, b) => b[this.selectedSorting] - a[this.selectedSorting])
-      } else if(this.selectedSorting == "price"){
+      } else if(this.selectedSorting === "price"){
           tempArr.sort((a, b) => b[this.selectedSorting] - a[this.selectedSorting])
-        } else if(this.selectedSorting == "name"){
+        } else if(this.selectedSorting === "name"){
             tempArr.sort((a, b) => a.name.localeCompare(b.name));
           }
             return tempArr

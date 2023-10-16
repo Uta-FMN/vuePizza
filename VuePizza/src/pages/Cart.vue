@@ -2,6 +2,7 @@
     import Pizza from '../components/Cart-pizza.vue'
     import cButton from '../components/Button.vue'
     import { mapGetters, mapMutations } from 'vuex'
+    import router from '../router'
 
     export default {
 
@@ -15,6 +16,10 @@
 
             clearCart(){
                 this.cartClear()
+            },
+
+            goToMain(){
+                router.push({ name: 'Main' })
             }
         },
 
@@ -27,7 +32,7 @@
 <template>
     <div class="container">
 
-        <template v-if="this.getCart.length === 0">
+        <template v-if="getCart.length === 0">
             <div class="cart-empty">
                     <h2 class="cart-empty__title">Корзина пустая 😕</h2>
 
@@ -38,7 +43,7 @@
                     <img src="../assets/empty-cart.svg" alt="" class="cart-empty__img">
 
                     <div class="cart-empty__btn">
-                        <cButton type="black" size="medium" route="main">
+                        <cButton @onClick="goToMain" type="black" size="medium">
                             <p class="cart-empty__btn-text">
                                 Вернуться назад
                             </p>
@@ -78,7 +83,7 @@
                 </div>
     
                 <div class="buttons-container">
-                    <cButton type="grey" size="large" route="main">
+                    <cButton @onClick="goToMain" type="grey" size="large">
                         <img src="../assets/arrow_icon.svg" alt="" class="left-button__arrow">
                         <p class="left-button__text">Вернуться назад</p>
                     </cButton>

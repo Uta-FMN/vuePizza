@@ -8,13 +8,6 @@ export default {
             },
             default: "default"
         },
-        route: {
-            type: String,
-            validator: function (value){
-                return["none", "main", "cart"].includes(value)
-            },
-            default: "none"
-        },
         size: {
             type: String,
             validator: function (value){
@@ -24,38 +17,28 @@ export default {
         }
     },
 
+    methods: {
+        clicked(){
+            this.$emit('onClick')
+        }
+    },
+
     computed: {
         assignType(){
-            return "button button--" + this.type + " button--" + this.size
-        },
-
-        assignRoute(){
-            return "/" + this.route
+            return [`button--${this.type}`, `button--${this.size}`]
         },
     }
 }
 </script>
 
 <template>
-    <template v-if="this.route !== 'none'">
-        <component is="router-link" :to="this.assignRoute" :class="this.assignType">
+        <button @click="clicked" class="button" :class="this.assignType">
             <div class="button__inner-wrapper">
                 <slot>
                     <p class="button__text">text</p>
                 </slot>
             </div>
-        </component>
-    </template>
-
-    <template v-else>
-        <div :class="this.assignType">
-            <div class="button__inner-wrapper">
-                <slot>
-                    <p class="button__text">text</p>
-                </slot>
-            </div>
-        </div>
-    </template>
+        </button>
 </template>
 
 <style scoped>

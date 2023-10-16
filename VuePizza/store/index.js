@@ -14,63 +14,49 @@ const store = createStore({
     },
 
     actions: {
-      async get({commit}, type){
 
-        switch (type) {
-          case "pizzas":
-            try {
-              await api.getPizzas()
-              .then((data) => {
-                commit("set", {data: data, type: type})
-              })
-            }
-            catch (error){
-              console.error('Произошла ошибка: ', error)
-            }
-            break
+      async pizzasAPI({commit}){
+        try {
+          const data = await api.getPizzas()
+            commit("setPizzas", data)
+        }
+        catch (error){
+          console.error('Произошла ошибка: ', error)
+        }
+      },
 
-          case "categories":
-            try {
-              await api.getCategories()
-              .then((data) => {
-                commit("set", {data: data, type: type})
-              })
-            }
-            catch (error){
-              console.error('Произошла ошибка: ', error)
-            }
-            break
+      async categoriesAPI({commit}){
+        try {
+          const data = await api.getCategories()
+            commit("setCategories", data)
+        }
+        catch (error){
+          console.error('Произошла ошибка: ', error)
+        }
+      },
 
-          case "sorting":
-            try {
-              await api.getSortingArray()
-              .then((data) => {
-                commit("set", {data: data, type: type})
-              })
-            }
-            catch (error){
-              console.error('Произошла ошибка: ', error)
-            }
-            break
+      async sortingAPI({commit}){
+        try {
+          const data = await api.getPizzas()
+            commit("setSorting", data)
+        }
+        catch (error){
+          console.error('Произошла ошибка: ', error)
         }
       },
     },
 
     mutations: {
-      set(state, payload){
-        switch(payload.type){
-          case "pizzas":
-            state.pizzas = payload.data
-            break
+      setPizzas(state, data){
+        state.pizzas = data
+      },
 
-          case "categories":
-            state.categories = payload.data
-            break
+      setCategories(state, data){
+        state.categories = data
+      },
 
-          case "sorting":
-            state.sorting = payload.data
-            break
-        }
+      setSorting(state, data){
+        state.sorting = data 
       }
     },
     

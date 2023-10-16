@@ -1,8 +1,7 @@
-function findIndex(state, selectedPizza){
-    return state.cartArray.findIndex((pizza) => 
-    pizza.name == selectedPizza.name && 
-    pizza.type == selectedPizza.type && 
-    pizza.size == selectedPizza.size)
+const isSelectedPizza = (pizza, selectedPizza) => {
+    pizza.name === selectedPizza.name && 
+    pizza.type === selectedPizza.type && 
+    pizza.size === selectedPizza.size
 }
 
 export default {
@@ -12,7 +11,7 @@ export default {
 
     mutations: {
         addToCart(state, selectedPizza){
-            const pizzaIndex = findIndex(state, selectedPizza)
+            const pizzaIndex = state.cartArray.findIndex((pizza) => isSelectedPizza(pizza, selectedPizza))
       
             if(pizzaIndex !== -1){
                 state.cartArray[pizzaIndex].ammount++
@@ -23,7 +22,7 @@ export default {
         },
 
         cartReduce(state, selectedPizza){
-            const pizzaIndex =  findIndex(state, selectedPizza)
+            const pizzaIndex = state.cartArray.findIndex((pizza) => isSelectedPizza(pizza, selectedPizza))
 
             if(state.cartArray[pizzaIndex].ammount > 1){
                 state.cartArray[pizzaIndex].ammount--
@@ -33,7 +32,7 @@ export default {
         },
 
         cartRemove(state, selectedPizza){
-            const pizzaIndex = findIndex(state, selectedPizza)
+            const pizzaIndex = state.cartArray.findIndex((pizza) => isSelectedPizza(pizza, selectedPizza))
             state.cartArray.splice(pizzaIndex, 1)
         },
         
