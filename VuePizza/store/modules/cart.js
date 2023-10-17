@@ -1,8 +1,8 @@
-const isSelectedPizza = (pizza, selectedPizza) => {
+const isSelectedPizza = (pizza, selectedPizza) => 
     pizza.name === selectedPizza.name && 
     pizza.type === selectedPizza.type && 
     pizza.size === selectedPizza.size
-}
+
 
 export default {
     state: {

@@ -5,7 +5,7 @@ import pizzaCard from '../components/Pizza.vue'
 import categoryButton from '../components/Filter.vue'
 import sorting from '../components/Sorting.vue'
 
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions, mapMutations } from 'vuex'
 
 export default {
   name: 'App',
@@ -28,6 +28,7 @@ export default {
   
   methods: {
     ...mapActions(["pizzasAPI", "sortingAPI", "categoriesAPI"]),
+    ...mapMutations(["addToCart"]),
 
     async startApp(){
       const requests = [this.pizzasAPI(), this.sortingAPI(), this.categoriesAPI()]
@@ -117,7 +118,7 @@ export default {
           <pizzaCardSkeleton v-for="(card, index) in 12" :key="index"></pizzaCardSkeleton>
         </template>
         <template v-else>
-          <pizzaCard v-for="pizza in filterPizzas" :cartAmmount="getCartAmmount(pizza)" :pizza="pizza" :key="pizza.id"></pizzaCard>
+          <pizzaCard @addToCart="addToCart" v-for="pizza in filterPizzas" :cartAmmount="getCartAmmount(pizza)" :pizza="pizza" :key="pizza.id"></pizzaCard>
         </template>
 
       </div>

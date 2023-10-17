@@ -40,7 +40,7 @@
         selectedPizza.type = this.returnType(this.selectedType)
         selectedPizza.size = this.pizza.sizes[this.selectedSize]
         selectedPizza.price = this.pizza.price
-        this.addToCart(selectedPizza)
+        this.$emit("addToCart", selectedPizza)
       }
     }
   }

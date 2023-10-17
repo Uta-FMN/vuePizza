@@ -14,12 +14,10 @@ export default {
                 return["small", "medium", "large"].includes(value)
             },
             default: "small"
-        }
-    },
-
-    methods: {
-        clicked(){
-            this.$emit('onClick')
+        },
+        tag: {
+            type: String,
+            default: "div"
         }
     },
 
@@ -32,13 +30,13 @@ export default {
 </script>
 
 <template>
-        <button @click="clicked" class="button" :class="this.assignType">
+        <component :is="tag" @click="$emit('click')" class="button" :class="assignType">
             <div class="button__inner-wrapper">
                 <slot>
                     <p class="button__text">text</p>
                 </slot>
             </div>
-        </button>
+        </component>
 </template>
 
 <style scoped>

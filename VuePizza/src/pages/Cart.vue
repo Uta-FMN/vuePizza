@@ -43,7 +43,7 @@
                     <img src="../assets/empty-cart.svg" alt="" class="cart-empty__img">
 
                     <div class="cart-empty__btn">
-                        <cButton @onClick="goToMain" type="black" size="medium">
+                        <cButton @click="goToMain" type="black" size="medium" tag="button">
                             <p class="cart-empty__btn-text">
                                 Вернуться назад
                             </p>
@@ -83,12 +83,12 @@
                 </div>
     
                 <div class="buttons-container">
-                    <cButton @onClick="goToMain" type="grey" size="large">
+                    <cButton @click="goToMain" type="grey" size="large" tag="button">
                         <img src="../assets/arrow_icon.svg" alt="" class="left-button__arrow">
                         <p class="left-button__text">Вернуться назад</p>
                     </cButton>
 
-                    <cButton size="large">
+                    <cButton size="large" tag="button">
                         <p class="right-button__text">Оплатить сейчас</p>
                     </cButton>
                 </div>
