@@ -41,8 +41,6 @@ export default {
 
 <style scoped>
 .button{
-    width: 211px;
-    height: 55px;
     border-radius: 30px;
     padding: 17px 0 17px 0;
     align-items: center;
