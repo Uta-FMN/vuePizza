@@ -37,7 +37,7 @@ const store = createStore({
 
       async sortingAPI({commit}){
         try {
-          const data = await api.getPizzas()
+          const data = await api.getSortingArray()
             commit("setSorting", data)
         }
         catch (error){
